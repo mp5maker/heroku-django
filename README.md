@@ -71,3 +71,7 @@
 
     pipenv install gunicorn
     pip install whitenoise
+    cd config
+    mkdir static
+    cd static
+    touch .keep
