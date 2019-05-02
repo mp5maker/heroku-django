@@ -150,3 +150,8 @@
 ### Update Git Ignore ###
 
     git rm -r --cached .
+
+### Heroku Extras ###
+
+    heroku run python manage.py createsuperuser --app heroku-django-two
+    heroku ps --app heroku-django-two
