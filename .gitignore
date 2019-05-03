@@ -106,3 +106,6 @@ __pycache__
 
 # statcifiles
 staticfiles
+
+#Sqlite
+*.sqlite3
