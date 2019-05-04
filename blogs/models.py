@@ -4,6 +4,8 @@ from django.utils.timezone import now
 
 from django.template.defaultfilters import slugify
 
+from django.urls import reverse
+
 class Post(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(blank=True)
@@ -22,7 +24,7 @@ class Post(models.Model):
         slug = slugify(self.title[:25])
         slug_exists = Post.objects.filter(slug=slug).exists()
         if slug_exists:
-            self.slug = "-".join([slug, self.id])
+            self.slug = slug + "-another"
         else:
             self.slug = slug
         if not self.id:
@@ -31,3 +33,6 @@ class Post(models.Model):
         if not self.updated_at:
             self.updated_at = now()
         return super(Post, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('blogs:details', kwargs={"slug": str(self.slug)})
