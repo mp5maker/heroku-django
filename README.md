@@ -147,6 +147,12 @@
         model = Post
         template_name = 'posts/home.html'
 
+### posts.tests ###
+
+    from django.urls import reverse
+    python manage.py collectstatic
+    python manage.py test
+
 ### Update Git Ignore ###
 
     git rm -r --cached .
