@@ -40,6 +40,20 @@
 ### config.urls ###
 
     from django.urls import include
+    from django.contrib import admin
+    from django.urls import path, include
+
+    from django.conf import settings
+    from django.conf.urls.static import static
+
+    urlpatterns = [
+        path('admin/', admin.site.urls),
+        path('accounts/', include('django.contrib.auth.urls')),
+        path('blogs/', include('blogs.urls')),
+        path('posts/', include('posts.urls')),
+        path('', include('pages.urls')),
+    ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 
 ### config.settings ###
 
@@ -61,6 +75,8 @@
         os.path.join(BASE_DIR, 'static')
     ]
     STATIC_URL = '/static/'
+    LOGIN_REDIRECT_URL = 'blogs:list'
+    LOGOUT_REDIRECT_URL = 'pages:home'
     django_heroku.settings(locals())
 
 ### Root ###
@@ -153,6 +169,22 @@
     python manage.py collectstatic
     python manage.py test
 
+### templates.layout.navbar.html ###
+    <div>
+        {% if user.is_authenticated %}
+            <a class="text-white">
+                Hi, {{ user.username }}
+            </a>
+        {% else %}
+            <a
+                href="{% url 'login' %}"
+                class="btn my-2 my-sm-0"
+                type="button">
+                Login
+            </a>
+        {% endif %}
+    </div>
+
 ### Update Git Ignore ###
 
     git rm -r --cached .
@@ -161,3 +193,13 @@
 
     heroku run python manage.py createsuperuser --app heroku-django-two
     heroku ps --app heroku-django-two
+
+### Pip ###
+
+    pip3 install -upgrade setuptools
+
+### Post Gres ###
+
+    sudo apt-get install postgresql
+    sudo apt-get install python-psycopg2
+    sudo apt-get install libpq-dev
